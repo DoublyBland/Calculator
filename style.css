@@ -31,6 +31,8 @@ body {
     margin-top: auto;
     padding-top: 12px;
     margin-bottom: auto;
+    text-overflow: clip;
+    overflow: hidden;
 }
 
 
