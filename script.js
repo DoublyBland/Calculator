@@ -39,7 +39,10 @@ function operate(num1, num2, operator) {
 
 function takeInput(){
     const container = document.getElementById("calculator");
-    let num1, num2, operator;
+    let num1, num2, operator, temp;
+    let textDisplay = "0"; // hold input to use as displayf
+
+    let display = document.getElementById("display-value");
     //console.log(num1);
     container.addEventListener('click', (e) => {
         
@@ -48,33 +51,44 @@ function takeInput(){
             return;
         }
         if(event.target.className == "number"){
-    const display = document.getElementById("display-value");
-    if(display.textContent == "0"){
-        display.innerHTML = event.target.textContent;
+    if(textDisplay == "0"){
+        textDisplay = event.target.textContent;
+        display.innerHTML = textDisplay;
     }
     else {
-    display.innerHTML += event.target.textContent;
+        textDisplay += event.target.textContent;
+    display.innerHTML = textDisplay;
     }
         }
         else if(event.target.className == "operator"){
             if(num1 == null){
                 operator = event.target.textContent;
-                num1 = display.textContent;
-                display = document.getElementById("display-value");
-                display.textContent = "0";
+                num1 = textDisplay;
+                //display = document.getElementById("display-value");
+                display.textContent = textDisplay;
+                textDisplay = "0";
+            }
+            else {
+                temp = textDisplay;
+                num1 = operate(num1, temp, operator);
+                operator = event.target.textContent;
+                display.textContent = num1;
+                textDisplay = "0";
             }
         }
         else if(event.target.className == "equals"){
-            num2 = display.textContent;
-            display = document.getElementById("display-value");
-            display.textContent = operate(num1, num2, operator);
+            num2 = textDisplay;
+            textDisplay = operate(num1, num2, operator);
+            display.textContent = textDisplay;
+            textDisplay = "0";
         }
         else if(event.target.className == "clear"){
             num1 = null;
             num2 = null;
             operator = null;
-            display = document.getElementById("display-value");
-            display.textContent = "0";
+            textDisplay = "0"
+            temp = null;
+            display.textContent = textDisplay;
         }
     });
 };
